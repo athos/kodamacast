@@ -1,4 +1,4 @@
-(ns kodama-cast.core)
+(ns kodamacast.core)
 
 (defn foo
   "I don't do a whole lot."

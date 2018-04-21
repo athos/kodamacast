@@ -1,6 +1,6 @@
-(ns kodama-cast.core-test
+(ns kodamacast.core-test
   (:require [clojure.test :refer :all]
-            [kodama-cast.core :refer :all]))
+            [kodamacast.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."
