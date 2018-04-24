@@ -1,4 +1,4 @@
-(defproject kodamacast "0.1.0-SNAPSHOT"
+(defproject kodamacast-service "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "https://github.com/athos/kodamacast"
   :license {:name "Eclipse Public License"
@@ -9,10 +9,10 @@
   :plugins [[lein-cljsbuild "1.1.7"]]
 
   :cljsbuild {:builds
-              [{:id "service"
-                :source-paths ["src/service"]
-                :compiler {:output-to "target/service/kodamacast.js"
-                           :output-dir "target/service"
+              [{:id "dev"
+                :source-paths ["src"]
+                :compiler {:output-to "target/kodamacast-service.js"
+                           :output-dir "target/out"
                            :main kodamacast.main
                            :optimizations :simple
                            :target :nodejs

@@ -3,7 +3,7 @@
 set -e
 
 ROOTDIR=$(dirname $(dirname $0))
-SRCFILE=target/service/kodamacast.js
+SRCFILE=service/target/kodamacast-service.js
 DSTNAME=bundle
 
 if [ -f $DSTNAME.zip ]; then
@@ -17,7 +17,7 @@ if [ ! -d $DSTNAME ]; then
 fi
 cp $SRCFILE $DSTNAME/index.js
 if [ ! -d $DSTNAME/node_modules ]; then
-  cp -r $ROOTDIR/node_modules $DSTNAME
+  cp -r $ROOTDIR/service/node_modules $DSTNAME
 fi
 
 echo 'Compressing files ...'
