@@ -2,26 +2,19 @@
 
 set -e
 
-ROOTDIR=$(dirname $(dirname $0))
-SRCFILE=service/target/kodamacast-service.js
-DSTNAME=bundle
-
-if [ -f $DSTNAME.zip ]; then
-  echo 'Cleaning existing zip file ...'
-  rm $DSTNAME.zip
-fi
+ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd)
+TARGET=$1
+TARGETDIR=$ROOTDIR/$TARGET
+SRCFILE=$TARGETDIR/target/kodamacast-$TARGET.js
+TMPDIR=$(mktemp -d -t $TARGET)
+DSTFILE=$ROOTDIR/$TARGET.zip
 
 echo 'Copying necessary files ...'
-if [ ! -d $DSTNAME ]; then
-  mkdir $DSTNAME
-fi
-cp $SRCFILE $DSTNAME/index.js
-if [ ! -d $DSTNAME/node_modules ]; then
-  cp -r $ROOTDIR/service/node_modules $DSTNAME
-fi
+cp $SRCFILE $TMPDIR/index.js
+cp -r $TARGETDIR/node_modules $TMPDIR
 
 echo 'Compressing files ...'
-cd $DSTNAME
-zip -r ../$DSTNAME.zip * > /dev/null
+cd $TMPDIR
+zip -r $DSTFILE * > /dev/null
 
 echo 'Done.'
