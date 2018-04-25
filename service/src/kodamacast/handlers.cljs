@@ -19,12 +19,17 @@
 (defhandler :AMAZON.StopIntent
   (h/emit ":tell" (h/t "THANKS_MESSAGE")))
 
-(def PODCAST_URL "https://s3.amazonaws.com/cognicast/shows/cognicast-103-rich-hickey-spec.mp3")
+(def PODCAST_URLS
+  {"こぐにきゃすと" "https://s3.amazonaws.com/cognicast/shows/cognicast-103-rich-hickey-spec.mp3"
+   "やっていきえふえむ" "https://yatteiki.fm/audio/53.mp3"})
 
-(defhandler :Play
-  (.. &self
-      -response
-      (audioPlayerPlay "REPLACE_ALL" PODCAST_URL PODCAST_URL nil 0))
+(defhandler :PlayPodcast
+  (let [slots (.. &self -event -request -intent -slots)
+        podcast-name (-> slots (aget "podcastName") .-value)
+        podcast-url (get PODCAST_URLS podcast-name)]
+    (.. &self
+        -response
+        (audioPlayerPlay "REPLACE_ALL" podcast-url podcast-url nil 0)))
   (h/emit ":responseReady"))
 
 (defhandler :AMAZON.PauseIntent
@@ -34,7 +39,7 @@
   (h/emit ":responseReady"))
 
 (defhandler :AMAZON.ResumeIntent
-  (.. &self
+  #_(.. &self
       -response
       (audioPlayerPlay "REPLACE_ALL" PODCAST_URL PODCAST_URL nil 0))
   (h/emit ":responseReady"))
