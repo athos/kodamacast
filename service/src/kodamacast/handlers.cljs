@@ -25,12 +25,14 @@
 
 (defhandler :PlayPodcast
   (let [slots (.. &self -event -request -intent -slots)
-        podcast-name (-> slots (aget "podcastName") .-value)
-        podcast-url (get PODCAST_URLS podcast-name)]
-    (.. &self
-        -response
-        (audioPlayerPlay "REPLACE_ALL" podcast-url podcast-url nil 0)))
-  (h/emit ":responseReady"))
+        podcast-name (-> slots (aget "podcastName") .-value)]
+    (if-let [podcast-url (get PODCAST_URLS podcast-name)]
+      (do (doto (.-response &self)
+            (.audioPlayerPlay "REPLACE_ALL" podcast-url podcast-url nil 0)
+            (.speak (str podcast-name "を再生します。")))
+          (h/emit ":responseReady"))
+      (h/emit ":tell"
+              (str podcast-name "に該当するポッドキャストは見つかりませんでした。")))))
 
 (defhandler :AMAZON.PauseIntent
   (.. &self
