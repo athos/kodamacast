@@ -16,5 +16,5 @@
                            :main kodamacast.main
                            :optimizations :simple
                            :target :nodejs
-                           :npm-deps {"alexa-sdk" "^1.0.25"}
+                           :npm-deps {"ask-sdk-core" "^2.0.2"}
                            :install-deps true}}]})
