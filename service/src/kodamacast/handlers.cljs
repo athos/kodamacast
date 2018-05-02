@@ -1,20 +1,20 @@
 (ns kodamacast.handlers
   (:require [kodamacast.handlers.core :as h :refer [defhandler]]))
 
-(defhandler LaunchRequest
-  ^{:target (fn [input]
-              (js/console.log "input:" input)
-              (= (h/request-type input) "LaunchRequest"))}
-  [input]
+(h/declare-condition LaunchRequest #(= (h/request-type %) "LaunchRequest"))
+
+(defhandler LaunchRequest [input]
   (.. (.-responseBuilder input)
       (speak (h/t "DESCRIPTION"))
       (getResponse)))
 
-(defhandler FinishIntent
-  ^{:target #(and (h/intent-request? %)
-                  (contains? #{"AMAZON.CancelIntent" "AMAZON.StopIntent"}
-                             (h/intent-name %)))}
-  [input]
+(h/declare-condition FinishIntent
+  (fn [input]
+    (and (h/intent-request? input)
+         (contains? #{"AMAZON.CancelIntent" "AMAZON.StopIntent"}
+                    (h/intent-name input)))))
+
+(defhandler FinishIntent [input]
   (.. (.-responseBuilder input)
       (speak (h/t "THANKS_MESSAGE"))
       (getResponse)))

@@ -2,16 +2,12 @@
   (:require [kodamacast.messages.ja-jp :as msg]))
 
 (defmacro defhandler [handler-name args & body]
-  (let [target (or (:target (meta args))
-                   `(fn [input#]
-                      (and (intent-request? input#)
-                           (= (intent-name input#) ~(name handler-name)))))]
-    `(do (swap! %handlers assoc '~handler-name
-                (cljs.core/js-obj "canHandle" ~target
-                                  "handle" (fn ~(with-meta args
-                                                  (dissoc (meta args) :target))
-                                             ~@body)))
-         '~handler-name)))
+  `(do (swap! %handlers assoc '~handler-name (fn ~args ~@body))
+       '~handler-name))
+
+(defmacro declare-condition [handler-name condition]
+  `(do (swap! %conditions assoc '~handler-name ~condition)
+       '~handler-name))
 
 (defmacro t [id]
   (or (get msg/messages (keyword id))
