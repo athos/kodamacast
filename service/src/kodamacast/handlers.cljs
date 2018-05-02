@@ -25,7 +25,7 @@
       (reprompt (h/t "TRY_AGAIN_MESSAGE"))
       (getResponse)))
 
-(defhandler AMAZON.HeplIntent [input]
+(defhandler AMAZON.HelpIntent [input]
   (.. (.-responseBuilder input)
       (speak (h/t "HELP_MESSAGE"))
       (getResponse)))
