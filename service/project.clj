@@ -16,5 +16,5 @@
                            :main kodamacast.main
                            :optimizations :simple
                            :target :nodejs
-                           :npm-deps {"ask-sdk-core" "^2.0.2"}
+                           :npm-deps {"ask-sdk" "^2.0.1"}
                            :install-deps true}}]})
