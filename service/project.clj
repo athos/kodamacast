@@ -17,4 +17,6 @@
                            :optimizations :simple
                            :target :nodejs
                            :npm-deps {"ask-sdk" "^2.0.1"}
-                           :install-deps true}}]})
+                           :install-deps true}}]}
+
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]]}})
